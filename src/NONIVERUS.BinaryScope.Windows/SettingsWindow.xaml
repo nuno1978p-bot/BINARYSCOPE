@@ -1,13 +1,7 @@
-<Window x:Class="NONIVERUS.BinaryScope.Windows.SettingsWindow"
+<UserControl x:Class="NONIVERUS.BinaryScope.Windows.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="NONIVERUS BinaryScope — Preferences"
         MinHeight="760" MinWidth="1080"
-        WindowState="Maximized"
-        ResizeMode="CanResize"
-        WindowStyle="SingleBorderWindow"
-        ShowInTaskbar="True"
-        StateChanged="Window_StateChanged"
         Background="{DynamicResource NavyBrush}"
         Foreground="{DynamicResource TextBrush}">
     <Grid Margin="28">
@@ -103,13 +97,11 @@
             <Button x:Name="CancelButton"
                     Grid.Column="1"
                     Style="{StaticResource ProductSecondaryButtonStyle}"
-                    MinWidth="120"
                     Click="Cancel_Click"/>
             <Button x:Name="SaveButton"
                     Grid.Column="3"
                     Style="{StaticResource ProductPrimaryButtonStyle}"
-                    MinWidth="120"
                     Click="Save_Click"/>
         </Grid>
     </Grid>
-</Window>
+</UserControl>

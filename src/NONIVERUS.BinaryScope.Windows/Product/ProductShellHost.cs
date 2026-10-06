@@ -1,11 +1,15 @@
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using NONIVERUS.BinaryScope.Models;
 
 namespace NONIVERUS.BinaryScope.Windows.Product;
 
 public static class ProductShellHost
 {
+    private static readonly ConditionalWeakTable<MainWindow, ShellState> States = new();
+
     public static void Attach(MainWindow window, ProductPreferences preferences)
     {
         ArgumentNullException.ThrowIfNull(window);
@@ -15,131 +19,183 @@ public static class ProductShellHost
             return;
 
         window.Content = null;
-
-        var shell = new Grid();
-        shell.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        shell.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-
-        var toolbar = BuildToolbar(window, preferences);
-        Grid.SetRow(toolbar, 0);
-        shell.Children.Add(toolbar);
-
-        Grid.SetRow(originalContent, 1);
-        shell.Children.Add(originalContent);
-
-        window.Content = shell;
+        var state = new ShellState(window, preferences, originalContent);
+        States.Remove(window);
+        States.Add(window, state);
+        window.Content = state.Root;
+        state.ShowAnalyze();
     }
 
-    private static Border BuildToolbar(MainWindow owner, ProductPreferences preferences)
+    public static void ShowComparison(MainWindow window, AabAnalysis before, AabAnalysis after, AabComparison comparison)
     {
-        var brandText = new TextBlock
-        {
-            FontSize = 15,
-            FontWeight = FontWeights.SemiBold,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        brandText.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
+        if (!States.TryGetValue(window, out var state))
+            throw new InvalidOperationException("BinaryScope dashboard shell is not attached.");
+        state.ShowComparison(before, after, comparison);
+    }
 
-        var descriptorText = new TextBlock
-        {
-            Margin = new Thickness(12, 0, 0, 0),
-            FontSize = 12,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        descriptorText.SetResourceReference(TextBlock.ForegroundProperty, "MutedBrush");
+    public static void ShowWhatsNew(MainWindow window)
+    {
+        if (!States.TryGetValue(window, out var state))
+            throw new InvalidOperationException("BinaryScope dashboard shell is not attached.");
+        state.ShowWhatsNew();
+    }
 
-        var versionText = new TextBlock
-        {
-            Margin = new Thickness(16, 0, 0, 0),
-            FontFamily = new FontFamily("Consolas"),
-            FontSize = 12,
-            FontWeight = FontWeights.Bold,
-            VerticalAlignment = VerticalAlignment.Center,
-            Text = "v" + ProductCatalog.CurrentProductVersion
-        };
-        versionText.SetResourceReference(TextBlock.ForegroundProperty, "AccentBrush");
+    private sealed class ShellState
+    {
+        private readonly MainWindow _window;
+        private readonly ProductPreferences _preferences;
+        private readonly UIElement _analyzeContent;
+        private readonly ContentControl _workspace = new();
+        private readonly TextBlock _brandText = new();
+        private readonly TextBlock _descriptorText = new();
+        private readonly TextBlock _versionText = new();
+        private readonly Button _analyzeButton = CreateSecondaryButton();
+        private readonly Button _whatsNewButton = CreateSecondaryButton();
+        private readonly Button _settingsButton = CreateSecondaryButton();
 
-        var whatsNewButton = CreateSecondaryButton();
-        var settingsButton = CreateSecondaryButton();
-        settingsButton.Margin = new Thickness(10, 0, 0, 0);
-
-        void RefreshLabels()
+        public ShellState(MainWindow window, ProductPreferences preferences, UIElement analyzeContent)
         {
-            brandText.Text = ProductCatalog.ProductName;
-            descriptorText.Text = LocalizationService.T(preferences.LanguageCode, "Main.Subtitle");
-            whatsNewButton.Content = LocalizationService.T(preferences.LanguageCode, "Main.WhatsNew");
-            settingsButton.Content = LocalizationService.T(preferences.LanguageCode, "Main.Settings");
+            _window = window;
+            _preferences = preferences;
+            _analyzeContent = analyzeContent;
+
+            _brandText.FontSize = 15;
+            _brandText.FontWeight = FontWeights.SemiBold;
+            _brandText.VerticalAlignment = VerticalAlignment.Center;
+            _brandText.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
+
+            _descriptorText.Margin = new Thickness(12, 0, 0, 0);
+            _descriptorText.FontSize = 12;
+            _descriptorText.VerticalAlignment = VerticalAlignment.Center;
+            _descriptorText.SetResourceReference(TextBlock.ForegroundProperty, "MutedBrush");
+
+            _versionText.Margin = new Thickness(16, 0, 0, 0);
+            _versionText.FontFamily = new FontFamily("Consolas");
+            _versionText.FontSize = 12;
+            _versionText.FontWeight = FontWeights.Bold;
+            _versionText.VerticalAlignment = VerticalAlignment.Center;
+            _versionText.Text = "v" + ProductCatalog.CurrentProductVersion;
+            _versionText.SetResourceReference(TextBlock.ForegroundProperty, "AccentBrush");
+
+            _whatsNewButton.Margin = new Thickness(10, 0, 0, 0);
+            _settingsButton.Margin = new Thickness(10, 0, 0, 0);
+
+            _analyzeButton.Click += (_, _) => ShowAnalyze();
+            _whatsNewButton.Click += (_, _) => ShowWhatsNew();
+            _settingsButton.Click += (_, _) => ShowSettings();
+
+            Root = BuildRoot();
+            RefreshLabels();
         }
 
-        whatsNewButton.Click += (_, _) =>
+        public Grid Root { get; }
+
+        public void ShowAnalyze()
         {
-            var dialog = new WhatsNewWindow(preferences.LanguageCode)
-            {
-                Owner = owner
-            };
-
-            dialog.ShowDialog();
-            preferences.LastSeenWhatsNewVersion = ProductCatalog.CurrentWhatsNewVersion;
-            ProductPreferencesStore.Save(preferences);
-        };
-
-        settingsButton.Click += (_, _) =>
-        {
-            var dialog = new SettingsWindow(preferences)
-            {
-                Owner = owner
-            };
-
-            if (dialog.ShowDialog() != true)
-                return;
-
-            var result = dialog.ResultPreferences;
-            preferences.LanguageCode = result.LanguageCode;
-            preferences.ThemeKey = result.ThemeKey;
-            preferences.OnboardingCompleted = result.OnboardingCompleted;
-            preferences.LastSeenWhatsNewVersion = result.LastSeenWhatsNewVersion;
-
-            ThemeService.Apply(preferences.ThemeKey);
-            ProductPreferencesStore.Save(preferences);
+            _workspace.Content = _analyzeContent;
             RefreshLabels();
-        };
+            MainWindowProductLocalization.Apply(_window, _preferences.LanguageCode);
+        }
 
-        RefreshLabels();
-
-        var left = new StackPanel
+        public void ShowComparison(AabAnalysis before, AabAnalysis after, AabComparison comparison)
         {
-            Orientation = Orientation.Horizontal,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        left.Children.Add(brandText);
-        left.Children.Add(descriptorText);
-        left.Children.Add(versionText);
+            _workspace.Content = new CompareWindow(before, after, comparison);
+            RefreshLabels();
+        }
 
-        var right = new StackPanel
+        public void ShowWhatsNew()
         {
-            Orientation = Orientation.Horizontal,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        right.Children.Add(whatsNewButton);
-        right.Children.Add(settingsButton);
+            var view = new WhatsNewWindow(_preferences.LanguageCode);
+            view.CloseRequested += () =>
+            {
+                _preferences.LastSeenWhatsNewVersion = ProductCatalog.CurrentWhatsNewVersion;
+                ProductPreferencesStore.Save(_preferences);
+                ShowAnalyze();
+            };
 
-        var layout = new Grid();
-        layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-        Grid.SetColumn(left, 0);
-        Grid.SetColumn(right, 1);
-        layout.Children.Add(left);
-        layout.Children.Add(right);
+            _workspace.Content = view;
+            _preferences.LastSeenWhatsNewVersion = ProductCatalog.CurrentWhatsNewVersion;
+            ProductPreferencesStore.Save(_preferences);
+            RefreshLabels();
+        }
 
-        var border = new Border
+        private void ShowSettings()
         {
-            Padding = new Thickness(28, 10, 28, 10),
-            BorderThickness = new Thickness(0, 0, 0, 1),
-            Child = layout
-        };
-        border.SetResourceReference(Border.BackgroundProperty, "PanelBrush");
-        border.SetResourceReference(Border.BorderBrushProperty, "BorderBrush");
-        return border;
+            var view = new SettingsWindow(_preferences);
+
+            view.Saved += saved =>
+            {
+                _preferences.LanguageCode = saved.LanguageCode;
+                _preferences.ThemeKey = saved.ThemeKey;
+                _preferences.OnboardingCompleted = saved.OnboardingCompleted;
+                _preferences.LastSeenWhatsNewVersion = saved.LastSeenWhatsNewVersion;
+
+                ThemeService.Apply(_preferences.ThemeKey);
+                ProductPreferencesStore.Save(_preferences);
+                RefreshLabels();
+                MainWindowProductLocalization.Apply(_window, _preferences.LanguageCode);
+                ShowAnalyze();
+            };
+
+            view.Cancelled += ShowAnalyze;
+            view.OpenWhatsNewRequested += () =>
+            {
+                view.CancelPreview();
+                ShowWhatsNew();
+            };
+
+            _workspace.Content = view;
+            RefreshLabels();
+        }
+
+        private Grid BuildRoot()
+        {
+            var root = new Grid();
+            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+            var left = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            left.Children.Add(_brandText);
+            left.Children.Add(_descriptorText);
+            left.Children.Add(_versionText);
+
+            var right = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            right.Children.Add(_analyzeButton);
+            right.Children.Add(_whatsNewButton);
+            right.Children.Add(_settingsButton);
+
+            var toolbarGrid = new Grid();
+            toolbarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            toolbarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            Grid.SetColumn(left, 0);
+            Grid.SetColumn(right, 1);
+            toolbarGrid.Children.Add(left);
+            toolbarGrid.Children.Add(right);
+
+            var toolbar = new Border
+            {
+                Padding = new Thickness(28, 10, 28, 10),
+                BorderThickness = new Thickness(0, 0, 0, 1),
+                Child = toolbarGrid
+            };
+            toolbar.SetResourceReference(Border.BackgroundProperty, "PanelBrush");
+            toolbar.SetResourceReference(Border.BorderBrushProperty, "BorderBrush");
+
+            Grid.SetRow(toolbar, 0);
+            Grid.SetRow(_workspace, 1);
+            root.Children.Add(toolbar);
+            root.Children.Add(_workspace);
+            return root;
+        }
+
+        private void RefreshLabels()
+        {
+            _brandText.Text = ProductCatalog.ProductName;
+            _descriptorText.Text = LocalizationService.T(_preferences.LanguageCode, "Main.Subtitle");
+            _analyzeButton.Content = ShellNavigationLocalization.Analyze(_preferences.LanguageCode);
+            _whatsNewButton.Content = LocalizationService.T(_preferences.LanguageCode, "Main.WhatsNew");
+            _settingsButton.Content = LocalizationService.T(_preferences.LanguageCode, "Main.Settings");
+        }
     }
 
     private static Button CreateSecondaryButton()
@@ -147,7 +203,7 @@ public static class ProductShellHost
         var button = new Button
         {
             Padding = new Thickness(14, 7, 14, 7),
-            MinWidth = 110,
+            MinWidth = 105,
             BorderThickness = new Thickness(1),
             FontWeight = FontWeights.SemiBold,
             Cursor = System.Windows.Input.Cursors.Hand

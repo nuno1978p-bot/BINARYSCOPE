@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using NONIVERUS.BinaryScope.Analysis;
 using NONIVERUS.BinaryScope.Models;
 using NONIVERUS.BinaryScope.Reporting;
+using NONIVERUS.BinaryScope.Windows.Product;
 
 namespace NONIVERUS.BinaryScope.Windows;
 
@@ -180,11 +181,7 @@ public partial class MainWindow : Window
             var after = _analyzer.Analyze(dialog.FileName);
             var comparison = AabComparator.Compare(_lastAnalysis, after);
 
-            var window = new CompareWindow(_lastAnalysis, after, comparison)
-            {
-                Owner = this
-            };
-            window.ShowDialog();
+            ProductShellHost.ShowComparison(this, _lastAnalysis, after, comparison);
         }
         catch (Exception ex)
         {

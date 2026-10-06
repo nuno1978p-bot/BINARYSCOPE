@@ -1,19 +1,18 @@
 using Microsoft.Win32;
 using System.Windows;
+using System.Windows.Controls;
 using NONIVERUS.BinaryScope.Models;
 using NONIVERUS.BinaryScope.Reporting;
 
 namespace NONIVERUS.BinaryScope.Windows;
 
-public partial class CompareWindow : Window
+public partial class CompareWindow : UserControl
 {
     private readonly AabComparison _comparison;
 
     public CompareWindow(AabAnalysis before, AabAnalysis after, AabComparison comparison)
     {
         InitializeComponent();
-        WindowState = WindowState.Maximized;
-
         _comparison = comparison;
 
         BeforeNameText.Text = before.FileName;
@@ -34,7 +33,6 @@ public partial class CompareWindow : Window
             $"{comparison.CategoryChanges.Count:N0} changed categories";
 
         DependencyGraphText.Text = "Dependency graph: " + comparison.DependencyGraphStatus;
-
         GateVerdictText.Text = comparison.Intelligence.Verdict;
         GatePolicyText.Text =
             $"Internal review thresholds · DEX +{comparison.Intelligence.Policy.DexGrowthReviewPercent:N0}% · " +
@@ -50,12 +48,6 @@ public partial class CompareWindow : Window
             : string.Join(" · ", comparison.Intelligence.Improvements.Select(i => i.Title));
     }
 
-    private void Window_StateChanged(object? sender, EventArgs e)
-    {
-        if (WindowState == WindowState.Normal)
-            WindowState = WindowState.Maximized;
-    }
-
     private void ExportJson_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new SaveFileDialog
@@ -64,8 +56,9 @@ public partial class CompareWindow : Window
             Filter = "JSON report (*.json)|*.json",
             FileName = "binaryscope-compare.json"
         };
-
-        if (dialog.ShowDialog(this) == true)
+        var owner = Window.GetWindow(this);
+        var accepted = owner is null ? dialog.ShowDialog() : dialog.ShowDialog(owner);
+        if (accepted == true)
             ComparisonReportWriter.WriteJson(_comparison, dialog.FileName);
     }
 
@@ -77,8 +70,9 @@ public partial class CompareWindow : Window
             Filter = "Text report (*.txt)|*.txt",
             FileName = "binaryscope-compare.txt"
         };
-
-        if (dialog.ShowDialog(this) == true)
+        var owner = Window.GetWindow(this);
+        var accepted = owner is null ? dialog.ShowDialog() : dialog.ShowDialog(owner);
+        if (accepted == true)
             ComparisonReportWriter.WriteText(_comparison, dialog.FileName);
     }
 }

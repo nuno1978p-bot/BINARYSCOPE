@@ -59,14 +59,7 @@ public partial class App : Application
             if (!shouldShow)
                 return;
 
-            var whatsNew = new WhatsNewWindow(preferences.LanguageCode)
-            {
-                Owner = mainWindow
-            };
-
-            whatsNew.ShowDialog();
-            preferences.LastSeenWhatsNewVersion = ProductCatalog.CurrentWhatsNewVersion;
-            ProductPreferencesStore.Save(preferences);
+            ProductShellHost.ShowWhatsNew(mainWindow);
         };
 
         mainWindow.Show();

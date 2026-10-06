@@ -8,12 +8,12 @@
         WindowStyle="SingleBorderWindow"
         ShowInTaskbar="True"
         StateChanged="Window_StateChanged"
-        Background="{StaticResource NavyBrush}"
-        Foreground="{StaticResource TextBrush}"
+        Background="{DynamicResource NavyBrush}"
+        Foreground="{DynamicResource TextBrush}"
         AllowDrop="True" Drop="Window_Drop" DragOver="Window_DragOver">
     <Window.Resources>
         <Style x:Key="MetricLabelStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
@@ -25,7 +25,7 @@
         <Style x:Key="SecondaryButtonStyle" TargetType="Button">
             <Setter Property="Padding" Value="14,9"/>
             <Setter Property="Background" Value="#17243B"/>
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
             <Setter Property="BorderBrush" Value="#2A3A56"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
@@ -56,7 +56,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <TextBlock Text="NONIVERUS BinaryScope" FontSize="30" FontWeight="SemiBold"/>
-                <TextBlock Text="Android App Bundle · DEX evidence · Google Play local preflight" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0"/>
+                <TextBlock Text="Android App Bundle · DEX evidence · Google Play local preflight" Foreground="{DynamicResource MutedBrush}" Margin="0,5,0,0"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <Button x:Name="CompareButton"
@@ -66,11 +66,11 @@
                         Style="{StaticResource SecondaryButtonStyle}"
                         Margin="0,0,10,0"/>
                 <Button Content="Open .aab" Click="Open_Click" Padding="20,11"
-                        Background="{StaticResource AccentBrush}" Foreground="#101010" FontWeight="SemiBold" BorderThickness="0"/>
+                        Background="{DynamicResource AccentBrush}" Foreground="{DynamicResource AccentTextBrush}" FontWeight="SemiBold" BorderThickness="0"/>
             </StackPanel>
         </Grid>
 
-        <Border Grid.Row="2" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18">
+        <Border Grid.Row="2" Background="{DynamicResource PanelBrush}" CornerRadius="14" Padding="18">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.15*"/>
@@ -83,31 +83,31 @@
                 <StackPanel>
                     <TextBlock Text="BUNDLE" Style="{StaticResource MetricLabelStyle}"/>
                     <TextBlock x:Name="BundleNameText" Text="Drop an Android App Bundle here" FontSize="17" Margin="0,6,20,0" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock x:Name="BundleSizeText" Text="No bundle loaded" Foreground="{StaticResource MutedBrush}" Margin="0,5,20,0"/>
+                    <TextBlock x:Name="BundleSizeText" Text="No bundle loaded" Foreground="{DynamicResource MutedBrush}" Margin="0,5,20,0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="DEX RAW" Style="{StaticResource MetricLabelStyle}"/>
                     <TextBlock x:Name="DexSizeText" Text="—" Style="{StaticResource MetricValueStyle}"/>
-                    <TextBlock x:Name="DexRawBytesText" Text="—" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="DexRawBytesText" Text="—" Foreground="{DynamicResource MutedBrush}" Margin="0,4,0,0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="DEX COMPRESSED" Style="{StaticResource MetricLabelStyle}"/>
                     <TextBlock x:Name="CompressedDexText" Text="—" Style="{StaticResource MetricValueStyle}"/>
-                    <TextBlock x:Name="CompressedDexBytesText" Text="—" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="CompressedDexBytesText" Text="—" Foreground="{DynamicResource MutedBrush}" Margin="0,4,0,0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="3">
                     <TextBlock Text="DEX FILES" Style="{StaticResource MetricLabelStyle}"/>
                     <TextBlock x:Name="DexCountText" Text="—" Style="{StaticResource MetricValueStyle}"/>
-                    <TextBlock x:Name="ModulesTopText" Text="— modules" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="ModulesTopText" Text="— modules" Foreground="{DynamicResource MutedBrush}" Margin="0,4,0,0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="4">
                     <TextBlock Text="GOOGLE DEX GATE" Style="{StaticResource MetricLabelStyle}"/>
                     <TextBlock x:Name="GateText" Text="UNVERIFIED" FontSize="17" FontWeight="SemiBold" Margin="0,6,0,0" TextWrapping="Wrap"/>
-                    <TextBlock x:Name="GateMarginTopText" Text="Load an .aab" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="GateMarginTopText" Text="Load an .aab" Foreground="{DynamicResource MutedBrush}" Margin="0,5,0,0" TextWrapping="Wrap"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -126,7 +126,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20">
+                <Border Background="{DynamicResource PanelBrush}" CornerRadius="14" Padding="20">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -142,7 +142,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Deep DEX metrics" FontSize="19" FontWeight="SemiBold"/>
-                            <TextBlock Grid.Column="1" Text="read-only" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="read-only" Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
                         </Grid>
 
                         <Grid Grid.Row="2">
@@ -187,7 +187,7 @@
                     </Grid>
                 </Border>
 
-                <Border Grid.Row="2" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20">
+                <Border Grid.Row="2" Background="{DynamicResource PanelBrush}" CornerRadius="14" Padding="20">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -200,10 +200,10 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="DEX inventory" FontSize="19" FontWeight="SemiBold"/>
-                            <TextBlock Grid.Column="1" x:Name="InventorySummaryText" Text="No DEX loaded" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="InventorySummaryText" Text="No DEX loaded" Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
                         </Grid>
                         <DataGrid Grid.Row="2" x:Name="DexGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"
-                                  Background="#0D1728" Foreground="White" RowBackground="#0D1728" AlternatingRowBackground="#13213A"
+                                  Background="{DynamicResource GridBrush}" Foreground="{DynamicResource TextBrush}" RowBackground="{DynamicResource GridBrush}" AlternatingRowBackground="{DynamicResource GridAlternateBrush}"
                                   BorderThickness="0" GridLinesVisibility="Horizontal" HeadersVisibility="Column"
                                   ColumnHeaderStyle="{StaticResource DexColumnHeaderStyle}"
                                   RowHeight="31" ColumnHeaderHeight="36">
@@ -227,10 +227,10 @@
                           HorizontalScrollBarVisibility="Disabled"
                           PanningMode="VerticalOnly">
                 <StackPanel>
-                    <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,18">
+                    <Border Background="{DynamicResource PanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,18">
                         <StackPanel>
                             <TextBlock Text="Google DEX policy preflight" FontSize="19" FontWeight="SemiBold"/>
-                            <TextBlock x:Name="VerdictText" Text="Load an .aab to run the local preflight." TextWrapping="Wrap" Margin="0,12,0,0" Foreground="{StaticResource MutedBrush}"/>
+                            <TextBlock x:Name="VerdictText" Text="Load an .aab to run the local preflight." TextWrapping="Wrap" Margin="0,12,0,0" Foreground="{DynamicResource MutedBrush}"/>
 
                             <Grid Margin="0,18,0,0">
                                 <Grid.ColumnDefinitions>
@@ -238,10 +238,10 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock x:Name="ThresholdUsageText" Text="0.00 MB / 10.00 MB" FontWeight="SemiBold"/>
-                                <TextBlock Grid.Column="1" x:Name="ThresholdPercentText" Text="0.0%" Foreground="{StaticResource MutedBrush}"/>
+                                <TextBlock Grid.Column="1" x:Name="ThresholdPercentText" Text="0.0%" Foreground="{DynamicResource MutedBrush}"/>
                             </Grid>
-                            <ProgressBar x:Name="ThresholdProgress" Minimum="0" Maximum="100" Value="0" Height="9" Margin="0,7,0,0" Foreground="{StaticResource AccentBrush}" Background="#263650"/>
-                            <TextBlock x:Name="ThresholdMarginText" Text="Threshold margin not measured." Foreground="{StaticResource MutedBrush}" Margin="0,7,0,0"/>
+                            <ProgressBar x:Name="ThresholdProgress" Minimum="0" Maximum="100" Value="0" Height="9" Margin="0,7,0,0" Foreground="{DynamicResource AccentBrush}" Background="{DynamicResource ProgressTrackBrush}"/>
+                            <TextBlock x:Name="ThresholdMarginText" Text="Threshold margin not measured." Foreground="{DynamicResource MutedBrush}" Margin="0,7,0,0"/>
 
                             <Separator Margin="0,16" Opacity="0.2"/>
                             <Grid>
@@ -250,21 +250,21 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Configured boundaries" FontWeight="SemiBold"/>
-                                <TextBlock Grid.Column="1" Text="decimal MB" Foreground="{StaticResource MutedBrush}"/>
+                                <TextBlock Grid.Column="1" Text="decimal MB" Foreground="{DynamicResource MutedBrush}"/>
                             </Grid>
                             <TextBlock x:Name="PolicyBoundariesText" Text="Advisory: 8,000,000 bytes · Google threshold: 10,000,000 bytes" Margin="0,8,0,0" TextWrapping="Wrap"/>
 
-                            <Border Background="#251D14" BorderBrush="#8F5C28" BorderThickness="1" CornerRadius="9" Padding="12" Margin="0,16,0,0">
+                            <Border Background="{DynamicResource ReviewSurfaceBrush}" BorderBrush="{DynamicResource ReviewBorderBrush}" BorderThickness="1" CornerRadius="9" Padding="12" Margin="0,16,0,0">
                                 <StackPanel>
-                                    <TextBlock Text="PLAY CONSOLE-ONLY METRICS" Foreground="{StaticResource AccentBrush}" FontSize="11" FontWeight="Bold"/>
+                                    <TextBlock Text="PLAY CONSOLE-ONLY METRICS" Foreground="{DynamicResource AccentBrush}" FontSize="11" FontWeight="Bold"/>
                                     <TextBlock x:Name="StoreMetricsText" Text="UNPROVEN LOCALLY" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,5,0,0"/>
-                                    <TextBlock Text="Shrinking · Optimization · Obfuscation" Foreground="{StaticResource MutedBrush}" Margin="0,6,0,0"/>
+                                    <TextBlock Text="Shrinking · Optimization · Obfuscation" Foreground="{DynamicResource MutedBrush}" Margin="0,6,0,0"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
                     </Border>
 
-                    <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,18">
+                    <Border Background="{DynamicResource PanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,18">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -272,13 +272,13 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Binary contributors" FontSize="19" FontWeight="SemiBold"/>
-                                <TextBlock Grid.Column="1" Text="packaged AAB footprint" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="packaged AAB footprint" Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
                             </Grid>
 
                             <TextBlock x:Name="NativeBinarySummaryText"
                                        Text="Load an .aab to inspect packaged native/AOT contributors."
                                        TextWrapping="Wrap"
-                                       Foreground="{StaticResource MutedBrush}"
+                                       Foreground="{DynamicResource MutedBrush}"
                                        Margin="0,10,0,0"/>
 
                             <Grid Margin="0,16,0,0">
@@ -315,10 +315,10 @@
                                       AutoGenerateColumns="False"
                                       IsReadOnly="True"
                                       CanUserAddRows="False"
-                                      Background="#0D1728"
-                                      Foreground="White"
-                                      RowBackground="#0D1728"
-                                      AlternatingRowBackground="#13213A"
+                                      Background="{DynamicResource GridBrush}"
+                                      Foreground="{DynamicResource TextBrush}"
+                                      RowBackground="{DynamicResource GridBrush}"
+                                      AlternatingRowBackground="{DynamicResource GridAlternateBrush}"
                                       BorderThickness="0"
                                       GridLinesVisibility="Horizontal"
                                       HeadersVisibility="Column"
@@ -337,12 +337,12 @@
                             <TextBlock x:Name="CategorySummaryText"
                                        Text="Category totals will appear here."
                                        TextWrapping="Wrap"
-                                       Foreground="{StaticResource MutedBrush}"
+                                       Foreground="{DynamicResource MutedBrush}"
                                        Margin="0,12,0,0"/>
 
-                            <Border Background="#111C2F" BorderBrush="#2A3A56" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,12,0,0">
+                            <Border Background="{DynamicResource ElevatedBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,12,0,0">
                                 <StackPanel>
-                                    <TextBlock Text="DEPENDENCY GRAPH" Foreground="{StaticResource MutedBrush}" FontSize="11" FontWeight="Bold"/>
+                                    <TextBlock Text="DEPENDENCY GRAPH" Foreground="{DynamicResource MutedBrush}" FontSize="11" FontWeight="Bold"/>
                                     <TextBlock x:Name="DependencyGraphStatusText"
                                                Text="UNPROVEN FROM AAB ALONE"
                                                TextWrapping="Wrap"
@@ -352,11 +352,11 @@
                         </StackPanel>
                     </Border>
 
-                    <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20">
+                    <Border Background="{DynamicResource PanelBrush}" CornerRadius="14" Padding="20">
                         <StackPanel>
                             <TextBlock Text="Evidence" FontSize="19" FontWeight="SemiBold"/>
                             <TextBlock x:Name="EvidenceSummaryText" Text="No bundle loaded." Margin="0,12,0,0" TextWrapping="Wrap"/>
-                            <TextBlock x:Name="EvidenceText" Text="" Margin="0,10,0,0" TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" FontFamily="Consolas" FontSize="12"/>
+                            <TextBlock x:Name="EvidenceText" Text="" Margin="0,10,0,0" TextWrapping="Wrap" Foreground="{DynamicResource MutedBrush}" FontFamily="Consolas" FontSize="12"/>
 
                             <Grid Margin="0,18,0,0">
                                 <Grid.ColumnDefinitions>

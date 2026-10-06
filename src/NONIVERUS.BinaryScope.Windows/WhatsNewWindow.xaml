@@ -1,13 +1,7 @@
-<Window x:Class="NONIVERUS.BinaryScope.Windows.WhatsNewWindow"
+<UserControl x:Class="NONIVERUS.BinaryScope.Windows.WhatsNewWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="NONIVERUS BinaryScope — What's New"
         MinHeight="760" MinWidth="1080"
-        WindowState="Maximized"
-        ResizeMode="CanResize"
-        WindowStyle="SingleBorderWindow"
-        ShowInTaskbar="True"
-        StateChanged="Window_StateChanged"
         Background="{DynamicResource NavyBrush}"
         Foreground="{DynamicResource TextBrush}">
     <Grid Margin="34">
@@ -96,8 +90,7 @@
             <Button x:Name="CloseButton"
                     Grid.Column="1"
                     Style="{StaticResource ProductPrimaryButtonStyle}"
-                    MinWidth="140"
                     Click="Close_Click"/>
         </Grid>
     </Grid>
-</Window>
+</UserControl>

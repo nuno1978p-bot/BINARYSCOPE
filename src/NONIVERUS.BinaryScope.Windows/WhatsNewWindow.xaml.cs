@@ -1,44 +1,32 @@
-using System.Windows;
+using System.Windows.Controls;
 using NONIVERUS.BinaryScope.Windows.Product;
 
 namespace NONIVERUS.BinaryScope.Windows;
 
 public sealed record WhatsNewDisplayItem(string Title, string Body);
 
-public partial class WhatsNewWindow : Window
+public partial class WhatsNewWindow : UserControl
 {
     private readonly string _languageCode;
 
     public WhatsNewWindow(string languageCode)
     {
         _languageCode = languageCode;
-
         InitializeComponent();
-        WindowState = WindowState.Maximized;
-
         VersionBadgeText.Text = "v" + ProductCatalog.CurrentProductVersion;
         RefreshContent();
     }
 
-    private void Window_StateChanged(object? sender, EventArgs e)
-    {
-        if (WindowState == WindowState.Normal)
-            WindowState = WindowState.Maximized;
-    }
+    public event Action? CloseRequested;
 
-    private void Close_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
+    private void Close_Click(object sender, System.Windows.RoutedEventArgs e) =>
+        CloseRequested?.Invoke();
 
     private void RefreshContent()
     {
         HeaderText.Text = LocalizationService.T(_languageCode, "WhatsNew.Title");
         SubtitleText.Text = LocalizationService.Format(
-            _languageCode,
-            "WhatsNew.Subtitle",
-            ProductCatalog.CurrentProductVersion);
-
+            _languageCode, "WhatsNew.Subtitle", ProductCatalog.CurrentProductVersion);
         NoteText.Text = LocalizationService.T(_languageCode, "WhatsNew.Note");
         CloseButton.Content = LocalizationService.T(_languageCode, "Common.Close");
 

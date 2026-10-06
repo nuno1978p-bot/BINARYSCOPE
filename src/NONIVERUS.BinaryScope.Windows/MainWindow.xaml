@@ -1,0 +1,376 @@
+<Window x:Class="NONIVERUS.BinaryScope.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NONIVERUS BinaryScope" Height="900" Width="1320"
+        MinHeight="760" MinWidth="1080"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
+        WindowStyle="SingleBorderWindow"
+        ShowInTaskbar="True"
+        StateChanged="Window_StateChanged"
+        Background="{StaticResource NavyBrush}"
+        Foreground="{StaticResource TextBrush}"
+        AllowDrop="True" Drop="Window_Drop" DragOver="Window_DragOver">
+    <Window.Resources>
+        <Style x:Key="MetricLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style x:Key="MetricValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="21"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
+        </Style>
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="14,9"/>
+            <Setter Property="Background" Value="#17243B"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="#2A3A56"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style x:Key="DexColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="#1B2A43"/>
+            <Setter Property="Foreground" Value="#F4F7FB"/>
+            <Setter Property="BorderBrush" Value="#344662"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="NONIVERUS BinaryScope" FontSize="30" FontWeight="SemiBold"/>
+                <TextBlock Text="Android App Bundle · DEX evidence · Google Play local preflight" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button x:Name="CompareButton"
+                        Content="Compare with .aab"
+                        Click="Compare_Click"
+                        IsEnabled="False"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Margin="0,0,10,0"/>
+                <Button Content="Open .aab" Click="Open_Click" Padding="20,11"
+                        Background="{StaticResource AccentBrush}" Foreground="#101010" FontWeight="SemiBold" BorderThickness="0"/>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="2" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.15*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="1.15*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="BUNDLE" Style="{StaticResource MetricLabelStyle}"/>
+                    <TextBlock x:Name="BundleNameText" Text="Drop an Android App Bundle here" FontSize="17" Margin="0,6,20,0" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="BundleSizeText" Text="No bundle loaded" Foreground="{StaticResource MutedBrush}" Margin="0,5,20,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="DEX RAW" Style="{StaticResource MetricLabelStyle}"/>
+                    <TextBlock x:Name="DexSizeText" Text="—" Style="{StaticResource MetricValueStyle}"/>
+                    <TextBlock x:Name="DexRawBytesText" Text="—" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="DEX COMPRESSED" Style="{StaticResource MetricLabelStyle}"/>
+                    <TextBlock x:Name="CompressedDexText" Text="—" Style="{StaticResource MetricValueStyle}"/>
+                    <TextBlock x:Name="CompressedDexBytesText" Text="—" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3">
+                    <TextBlock Text="DEX FILES" Style="{StaticResource MetricLabelStyle}"/>
+                    <TextBlock x:Name="DexCountText" Text="—" Style="{StaticResource MetricValueStyle}"/>
+                    <TextBlock x:Name="ModulesTopText" Text="— modules" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="4">
+                    <TextBlock Text="GOOGLE DEX GATE" Style="{StaticResource MetricLabelStyle}"/>
+                    <TextBlock x:Name="GateText" Text="UNVERIFIED" FontSize="17" FontWeight="SemiBold" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="GateMarginTopText" Text="Load an .aab" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.35*"/>
+                <ColumnDefinition Width="18"/>
+                <ColumnDefinition Width="0.9*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="14"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="14"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Deep DEX metrics" FontSize="19" FontWeight="SemiBold"/>
+                            <TextBlock Grid.Column="1" Text="read-only" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="UNIQUE METHOD REFS" Style="{StaticResource MetricLabelStyle}"/>
+                                <TextBlock x:Name="UniqueMethodRefsText" Text="—" Style="{StaticResource MetricValueStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="DEFINED METHODS" Style="{StaticResource MetricLabelStyle}"/>
+                                <TextBlock x:Name="DefinedMethodsText" Text="—" Style="{StaticResource MetricValueStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="METHODS WITH CODE" Style="{StaticResource MetricLabelStyle}"/>
+                                <TextBlock x:Name="MethodsWithCodeText" Text="—" Style="{StaticResource MetricValueStyle}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="METHOD IDs · HEADER SUM" Style="{StaticResource MetricLabelStyle}"/>
+                                <TextBlock x:Name="HeaderMethodIdsText" Text="—" FontSize="18" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="CLASS DEFINITIONS" Style="{StaticResource MetricLabelStyle}"/>
+                                <TextBlock x:Name="ClassDefsText" Text="—" FontSize="18" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="MODULE EVIDENCE" Style="{StaticResource MetricLabelStyle}"/>
+                                <TextBlock x:Name="ModuleProofText" Text="—" FontSize="15" FontWeight="SemiBold" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="12"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="DEX inventory" FontSize="19" FontWeight="SemiBold"/>
+                            <TextBlock Grid.Column="1" x:Name="InventorySummaryText" Text="No DEX loaded" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                        </Grid>
+                        <DataGrid Grid.Row="2" x:Name="DexGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"
+                                  Background="#0D1728" Foreground="White" RowBackground="#0D1728" AlternatingRowBackground="#13213A"
+                                  BorderThickness="0" GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                                  ColumnHeaderStyle="{StaticResource DexColumnHeaderStyle}"
+                                  RowHeight="31" ColumnHeaderHeight="36">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Module" Binding="{Binding Module}" Width="80"/>
+                                <DataGridTextColumn Header="DEX" Binding="{Binding EntryName}" Width="*"/>
+                                <DataGridTextColumn Header="Raw bytes" Binding="{Binding UncompressedBytes, StringFormat={}{0:N0}}" Width="105"/>
+                                <DataGridTextColumn Header="Compressed" Binding="{Binding CompressedBytes, StringFormat={}{0:N0}}" Width="105"/>
+                                <DataGridTextColumn Header="Method IDs" Binding="{Binding Header.MethodIds, StringFormat={}{0:N0}}" Width="88"/>
+                                <DataGridTextColumn Header="Classes" Binding="{Binding Header.ClassDefs, StringFormat={}{0:N0}}" Width="78"/>
+                                <DataGridTextColumn Header="Defined" Binding="{Binding DefinedMethods, StringFormat={}{0:N0}}" Width="88"/>
+                                <DataGridTextColumn Header="With code" Binding="{Binding MethodsWithCode, StringFormat={}{0:N0}}" Width="88"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <ScrollViewer Grid.Column="2" x:Name="RightPanelScrollViewer"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          PanningMode="VerticalOnly">
+                <StackPanel>
+                    <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,18">
+                        <StackPanel>
+                            <TextBlock Text="Google DEX policy preflight" FontSize="19" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="VerdictText" Text="Load an .aab to run the local preflight." TextWrapping="Wrap" Margin="0,12,0,0" Foreground="{StaticResource MutedBrush}"/>
+
+                            <Grid Margin="0,18,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="ThresholdUsageText" Text="0.00 MB / 10.00 MB" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="1" x:Name="ThresholdPercentText" Text="0.0%" Foreground="{StaticResource MutedBrush}"/>
+                            </Grid>
+                            <ProgressBar x:Name="ThresholdProgress" Minimum="0" Maximum="100" Value="0" Height="9" Margin="0,7,0,0" Foreground="{StaticResource AccentBrush}" Background="#263650"/>
+                            <TextBlock x:Name="ThresholdMarginText" Text="Threshold margin not measured." Foreground="{StaticResource MutedBrush}" Margin="0,7,0,0"/>
+
+                            <Separator Margin="0,16" Opacity="0.2"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Configured boundaries" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="1" Text="decimal MB" Foreground="{StaticResource MutedBrush}"/>
+                            </Grid>
+                            <TextBlock x:Name="PolicyBoundariesText" Text="Advisory: 8,000,000 bytes · Google threshold: 10,000,000 bytes" Margin="0,8,0,0" TextWrapping="Wrap"/>
+
+                            <Border Background="#251D14" BorderBrush="#8F5C28" BorderThickness="1" CornerRadius="9" Padding="12" Margin="0,16,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="PLAY CONSOLE-ONLY METRICS" Foreground="{StaticResource AccentBrush}" FontSize="11" FontWeight="Bold"/>
+                                    <TextBlock x:Name="StoreMetricsText" Text="UNPROVEN LOCALLY" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                                    <TextBlock Text="Shrinking · Optimization · Obfuscation" Foreground="{StaticResource MutedBrush}" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,18">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Binary contributors" FontSize="19" FontWeight="SemiBold"/>
+                                <TextBlock Grid.Column="1" Text="packaged AAB footprint" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <TextBlock x:Name="NativeBinarySummaryText"
+                                       Text="Load an .aab to inspect packaged native/AOT contributors."
+                                       TextWrapping="Wrap"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       Margin="0,10,0,0"/>
+
+                            <Grid Margin="0,16,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="NATIVE RAW" Style="{StaticResource MetricLabelStyle}"/>
+                                    <TextBlock x:Name="NativeRawText" Text="—" FontSize="16" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="COMPRESSED" Style="{StaticResource MetricLabelStyle}"/>
+                                    <TextBlock x:Name="NativeCompressedText" Text="—" FontSize="16" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="ABIs" Style="{StaticResource MetricLabelStyle}"/>
+                                    <TextBlock x:Name="NativeAbiText" Text="—" FontSize="16" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="3">
+                                    <TextBlock Text="CONTRIBUTORS" Style="{StaticResource MetricLabelStyle}"/>
+                                    <TextBlock x:Name="ContributorCountText" Text="—" FontSize="16" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="Largest logical contributors across packaged ABIs"
+                                       FontWeight="SemiBold"
+                                       Margin="0,18,0,8"/>
+
+                            <DataGrid x:Name="ContributorGrid"
+                                      Height="220"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      CanUserAddRows="False"
+                                      Background="#0D1728"
+                                      Foreground="White"
+                                      RowBackground="#0D1728"
+                                      AlternatingRowBackground="#13213A"
+                                      BorderThickness="0"
+                                      GridLinesVisibility="Horizontal"
+                                      HeadersVisibility="Column"
+                                      ColumnHeaderStyle="{StaticResource DexColumnHeaderStyle}"
+                                      RowHeight="29"
+                                      ColumnHeaderHeight="34">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Contributor" Binding="{Binding ContributorName}" Width="1.5*"/>
+                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="1.15*"/>
+                                    <DataGridTextColumn Header="Raw" Binding="{Binding UncompressedBytes, StringFormat={}{0:N0}}" Width="92"/>
+                                    <DataGridTextColumn Header="Compressed" Binding="{Binding CompressedBytes, StringFormat={}{0:N0}}" Width="92"/>
+                                    <DataGridTextColumn Header="ABIs" Binding="{Binding AbiCount}" Width="48"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <TextBlock x:Name="CategorySummaryText"
+                                       Text="Category totals will appear here."
+                                       TextWrapping="Wrap"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       Margin="0,12,0,0"/>
+
+                            <Border Background="#111C2F" BorderBrush="#2A3A56" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,12,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="DEPENDENCY GRAPH" Foreground="{StaticResource MutedBrush}" FontSize="11" FontWeight="Bold"/>
+                                    <TextBlock x:Name="DependencyGraphStatusText"
+                                               Text="UNPROVEN FROM AAB ALONE"
+                                               TextWrapping="Wrap"
+                                               Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Evidence" FontSize="19" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="EvidenceSummaryText" Text="No bundle loaded." Margin="0,12,0,0" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="EvidenceText" Text="" Margin="0,10,0,0" TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" FontFamily="Consolas" FontSize="12"/>
+
+                            <Grid Margin="0,18,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="ExportButton" Content="Export JSON" Click="Export_Click" IsEnabled="False" Style="{StaticResource SecondaryButtonStyle}"/>
+                                <Button Grid.Column="2" x:Name="ExportSummaryButton" Content="Export TXT summary" Click="ExportSummary_Click" IsEnabled="False" Style="{StaticResource SecondaryButtonStyle}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

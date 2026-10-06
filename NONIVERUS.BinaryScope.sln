@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NONIVERUS.BinaryScope.Core", "src\NONIVERUS.BinaryScope.Core\NONIVERUS.BinaryScope.Core.csproj", "{4E91DE73-7EA5-4E77-82C2-FE59B8D7991D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NONIVERUS.BinaryScope.Windows", "src\NONIVERUS.BinaryScope.Windows\NONIVERUS.BinaryScope.Windows.csproj", "{86B16031-6266-4588-9A42-5F44F5C69F6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NONIVERUS.BinaryScope.Smoke", "src\NONIVERUS.BinaryScope.Smoke\NONIVERUS.BinaryScope.Smoke.csproj", "{EA9BEF73-87C1-4524-B326-CA1A7B7C814C}"
+EndProject
+Global
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|Any CPU = Debug|Any CPU
+        Release|Any CPU = Release|Any CPU
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {4E91DE73-7EA5-4E77-82C2-FE59B8D7991D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {4E91DE73-7EA5-4E77-82C2-FE59B8D7991D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {4E91DE73-7EA5-4E77-82C2-FE59B8D7991D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {4E91DE73-7EA5-4E77-82C2-FE59B8D7991D}.Release|Any CPU.Build.0 = Release|Any CPU
+        {86B16031-6266-4588-9A42-5F44F5C69F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {86B16031-6266-4588-9A42-5F44F5C69F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {86B16031-6266-4588-9A42-5F44F5C69F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {86B16031-6266-4588-9A42-5F44F5C69F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+        {EA9BEF73-87C1-4524-B326-CA1A7B7C814C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {EA9BEF73-87C1-4524-B326-CA1A7B7C814C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {EA9BEF73-87C1-4524-B326-CA1A7B7C814C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {EA9BEF73-87C1-4524-B326-CA1A7B7C814C}.Release|Any CPU.Build.0 = Release|Any CPU
+    EndGlobalSection
+EndGlobal

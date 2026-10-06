@@ -1,0 +1,107 @@
+{
+  "product": "NONIVERUS BinaryScope",
+  "version": "0.1.0-baseline",
+  "status": "SOURCE BASELINE - BUILD UNPROVEN",
+  "files": [
+    {
+      "path": "Directory.Build.props",
+      "sha256": "4CB049DFD73368492E41B341EC223BA317A243137A5E205FFB0E81FD9F258942",
+      "bytes": 269
+    },
+    {
+      "path": "NONIVERUS.BinaryScope.sln",
+      "sha256": "B07D6D300F8CAD2DD3F45145E08EED998653F65D961361C851591123A4AF7B35",
+      "bytes": 2106
+    },
+    {
+      "path": "README.md",
+      "sha256": "86C01DE5C4ECBECD4DA30748E2A7AEACFE807A112824BAA451AA16B1F0EA4491",
+      "bytes": 1225
+    },
+    {
+      "path": "docs/NONIVERUS_BINARYSCOPE_PROJECT_CONTRACT_V1.md",
+      "sha256": "F79FA32927FF8C77A7DC0E3384BD6FB516FDE7597D5956C561924153F08A8354",
+      "bytes": 3078
+    },
+    {
+      "path": "scripts/BUILD_WINDOWS.ps1",
+      "sha256": "5A891848D046E60E641EAEFE8D7B45A5267FC77C6722E02CBA6319625AF95861",
+      "bytes": 558
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Analysis/AabAnalyzer.cs",
+      "sha256": "780AD60C8FB90A79CD48AC103636B2B2082EEE0DEDFDBC064DDB5AE82DAD790C",
+      "bytes": 5134
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Analysis/DexHeaderReader.cs",
+      "sha256": "38E8E58E222E0A9383E4246D50DF799230667B06405D07E4580EF3E1935945F6",
+      "bytes": 1998
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Models/AabAnalysis.cs",
+      "sha256": "5A7573DA6CB0151FB6CB2BA5CA16F9C726F88C5125EFCBFE633BA91D3C526D65",
+      "bytes": 691
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Models/DexFileAnalysis.cs",
+      "sha256": "15DF7188CEE428BD851E3D8151DADA4BD0FC2AC3FE33847D4BE564F86467AEBF",
+      "bytes": 491
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Models/GoogleDexPolicyResult.cs",
+      "sha256": "112E8A44C2F8452B1D6481A682CAFE8BC19804149ED0D2A8D102908A21E4E30C",
+      "bytes": 499
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/NONIVERUS.BinaryScope.Core.csproj",
+      "sha256": "2C71BE9EBE3E9325159239906015E6777021E10BE87F70B409492B3E82828CBA",
+      "bytes": 246
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Policy/GoogleDexPolicy.cs",
+      "sha256": "130CE16DD50D293BA0912FA8634C3128A87A33A8CED97DD27214809CCE6A3437",
+      "bytes": 1678
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Core/Reporting/AnalysisReportWriter.cs",
+      "sha256": "92061A72166E81DD76C7E9FBAE308EC0685EC70650B4A03180D6735E46E2FF93",
+      "bytes": 492
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Smoke/NONIVERUS.BinaryScope.Smoke.csproj",
+      "sha256": "D23E85DE25864EE71E8B2B5EDBEB32AE1022EAE0986EF12AD031AD21AE4212B9",
+      "bytes": 414
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Smoke/Program.cs",
+      "sha256": "A6164A0C0675AA959D8D65C50545EB7B0B94222C9866385033A5CAE9C8EFEE7C",
+      "bytes": 404
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Windows/App.xaml",
+      "sha256": "D665E6FE942769E3F4D80E390AC1D83211873D33B202EFBFC4AAFED916315BE5",
+      "bytes": 628
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Windows/App.xaml.cs",
+      "sha256": "05FC2CC10408BC56A7DB9299FB60D7D44AB9B51597EC5CC2E69C86A032D1C3DD",
+      "bytes": 108
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Windows/MainWindow.xaml",
+      "sha256": "E01F3160D216F7AACF6956C36780DE263DDF139883F0BA4DE6636CAA2567910E",
+      "bytes": 6699
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Windows/MainWindow.xaml.cs",
+      "sha256": "09C3747534A046B7407AD63CEF5C19F87107B5216D9F2E3535AECA8CF23F9D1E",
+      "bytes": 3599
+    },
+    {
+      "path": "src/NONIVERUS.BinaryScope.Windows/NONIVERUS.BinaryScope.Windows.csproj",
+      "sha256": "C36193A560E195BDB32B1E6F02974A887DB016BAF2B453AEDB15387F33BBD7BD",
+      "bytes": 513
+    }
+  ]
+}

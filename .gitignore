@@ -1,0 +1,86 @@
+# NONIVERUS BinaryScope
+# Source-control policy: source/docs/scripts only; no build output or local evidence noise.
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET build output
+**/bin/
+**/obj/
+artifacts/
+TestResults/
+coverage/
+coverage.*
+*.trx
+
+# NuGet / packages
+packages/
+*.nupkg
+*.snupkg
+
+# Publish / installer output
+publish/
+dist/
+out/
+AppPackages/
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.cer
+*.pfx
+
+# Patch / temporary backups
+_PATCH_BACKUP_*/
+**/_PATCH_BACKUP_*/
+_BACKUP_*/
+**/_BACKUP_*/
+*.bak
+*.tmp
+*.temp
+
+# Generated runtime evidence / exports
+evidence/
+**/evidence/
+V0.*_EVIDENCE.txt
+*_EVIDENCE.txt
+binaryscope-compare.json
+binaryscope-compare.txt
+
+# Local product preferences
+product-settings.json
+
+# Android package artifacts - analysis inputs should not be committed
+*.aab
+*.apk
+*.apks
+
+# Logs / dumps
+*.log
+*.dmp
+
+# OS metadata
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Secrets / credentials / signing material
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+*.mobileprovision
+credentials*.json
+secrets*.json
+appsettings.*.local.json

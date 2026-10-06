@@ -1,0 +1,115 @@
+<Window x:Class="NONIVERUS.BinaryScope.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NONIVERUS BinaryScope — Preferences"
+        MinHeight="760" MinWidth="1080"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
+        WindowStyle="SingleBorderWindow"
+        ShowInTaskbar="True"
+        StateChanged="Window_StateChanged"
+        Background="{DynamicResource NavyBrush}"
+        Foreground="{DynamicResource TextBrush}">
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock x:Name="HeaderText" FontSize="30" FontWeight="SemiBold"/>
+            <TextBlock x:Name="SubtitleText"
+                       Margin="0,6,0,0"
+                       Foreground="{DynamicResource MutedBrush}"/>
+        </StackPanel>
+
+        <Border Grid.Row="2"
+                Background="{DynamicResource PanelBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="24">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <TextBlock x:Name="LanguageLabelText" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="LanguageCombo"
+                              Margin="0,8,0,0"
+                              Padding="12,8"
+                              DisplayMemberPath="DisplayName"
+                              SelectedValuePath="Code"
+                              SelectionChanged="LanguageCombo_SelectionChanged"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    <TextBlock x:Name="ThemeLabelText" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="ThemeCombo"
+                              Margin="0,8,0,0"
+                              Padding="12,8"
+                              DisplayMemberPath="DisplayName"
+                              SelectedValuePath="Key"
+                              SelectionChanged="ThemeCombo_SelectionChanged"/>
+                </StackPanel>
+
+                <Border Grid.Row="4"
+                        Background="{DynamicResource ElevatedBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="VersionText"
+                                   FontFamily="Consolas"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource MutedBrush}"/>
+                        <Button x:Name="WhatsNewButton"
+                                Grid.Column="1"
+                                Style="{StaticResource ProductSecondaryButtonStyle}"
+                                Click="WhatsNew_Click"/>
+                    </Grid>
+                </Border>
+
+                <TextBlock x:Name="LocalNoteText"
+                           Grid.Row="6"
+                           Foreground="{DynamicResource MutedBrush}"
+                           FontSize="12"
+                           TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="CancelButton"
+                    Grid.Column="1"
+                    Style="{StaticResource ProductSecondaryButtonStyle}"
+                    MinWidth="120"
+                    Click="Cancel_Click"/>
+            <Button x:Name="SaveButton"
+                    Grid.Column="3"
+                    Style="{StaticResource ProductPrimaryButtonStyle}"
+                    MinWidth="120"
+                    Click="Save_Click"/>
+        </Grid>
+    </Grid>
+</Window>

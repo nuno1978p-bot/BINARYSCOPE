@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AssemblyName>NONIVERUS.BinaryScope.Windows</AssemblyName>
+    <RootNamespace>NONIVERUS.BinaryScope.Windows</RootNamespace>
+    <Version>0.1.6</Version>
+    <FileVersion>0.1.6.0</FileVersion>
+    <AssemblyVersion>0.1.6.0</AssemblyVersion>
+    <ApplicationIcon>Assets\BinaryScope.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../NONIVERUS.BinaryScope.Core/NONIVERUS.BinaryScope.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\BinaryScope_mark_color_1024.png" />
+  </ItemGroup>
+</Project>

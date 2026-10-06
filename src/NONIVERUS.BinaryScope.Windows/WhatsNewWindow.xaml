@@ -1,0 +1,103 @@
+<Window x:Class="NONIVERUS.BinaryScope.Windows.WhatsNewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NONIVERUS BinaryScope — What's New"
+        MinHeight="760" MinWidth="1080"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
+        WindowStyle="SingleBorderWindow"
+        ShowInTaskbar="True"
+        StateChanged="Window_StateChanged"
+        Background="{DynamicResource NavyBrush}"
+        Foreground="{DynamicResource TextBrush}">
+    <Grid Margin="34">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <TextBlock x:Name="HeaderText" FontSize="34" FontWeight="SemiBold"/>
+                <TextBlock x:Name="SubtitleText"
+                           Margin="0,7,0,0"
+                           FontSize="15"
+                           Foreground="{DynamicResource MutedBrush}"/>
+            </StackPanel>
+
+            <Border Grid.Column="1"
+                    Background="{DynamicResource ElevatedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="14,8">
+                <TextBlock x:Name="VersionBadgeText"
+                           FontFamily="Consolas"
+                           Foreground="{DynamicResource AccentBrush}"
+                           FontWeight="Bold"/>
+            </Border>
+        </Grid>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="EntriesControl">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{DynamicResource PanelBrush}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="16"
+                                Padding="22"
+                                Margin="0,0,0,14">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="18"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Background="{DynamicResource AccentBrush}" CornerRadius="4"/>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="{Binding Title}"
+                                               FontSize="19"
+                                               FontWeight="SemiBold"
+                                               TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Body}"
+                                               Margin="0,7,0,0"
+                                               Foreground="{DynamicResource MutedBrush}"
+                                               FontSize="14"
+                                               LineHeight="22"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="NoteText"
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource MutedBrush}"
+                       TextWrapping="Wrap"
+                       MaxWidth="850"
+                       HorizontalAlignment="Left"/>
+            <Button x:Name="CloseButton"
+                    Grid.Column="1"
+                    Style="{StaticResource ProductPrimaryButtonStyle}"
+                    MinWidth="140"
+                    Click="Close_Click"/>
+        </Grid>
+    </Grid>
+</Window>
